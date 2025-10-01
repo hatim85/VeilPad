@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "build": "tsc",
-    "start": "node build/index.js"
+    "build": "npm install && tsc",
+    "start": "node build/index.js",
+    "postinstall": "npm run build"
   },
   "author": "",
   "license": "ISC",
