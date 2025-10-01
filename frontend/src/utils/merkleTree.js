@@ -1,7 +1,5 @@
 import MerkleTree from "merkletreejs";
-import { buildPoseidon } from "circomlibjs";
-
-const poseidon = await buildPoseidon();
+import { poseidon } from "poseidon-lite";
 
 export const getRoot = (leaves) => {
   const tree = new MerkleTree(leaves, poseidon, {

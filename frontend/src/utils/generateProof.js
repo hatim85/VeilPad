@@ -1,18 +1,22 @@
-import { groth16 } from "snarkjs";
+import { Noir } from "@noir-lang/noir_js";
+import { BarretenbergBackend } from "@noir-lang/backend_barretenberg";
 
-export const generateProof = async (objectParams, wasmPath, zkeyPath) => {
+export const generateProof = async (objectParams, circuitPath) => {
   try {
     console.log("Generating proof with params: ", objectParams);
-    const { proof, publicSignals } = await groth16.fullProve(
-      objectParams,
-      new Uint8Array(wasmPath),
-      new Uint8Array(zkeyPath)
-    );
+    
+    // Load the circuit
+    const circuit = await fetch(circuitPath).then(res => res.json());
+    const backend = new BarretenbergBackend(circuit);
+    const noir = new Noir(circuit, backend);
+    
+    // Generate proof using Noir
+    const { proof, publicInputs } = await noir.generateProof(objectParams);
 
     console.log("proof: ", proof);
-    console.log("publicSignals: ", publicSignals);
+    console.log("publicInputs: ", publicInputs);
 
-    return { proof, publicSignals };
+    return { proof, publicSignals: publicInputs };
   } catch (error) {
     console.error("Error in generateProof:", error);
   }
@@ -24,16 +28,7 @@ export const generateProofWhitelist = async (
   pathElements,
   root
 ) => {
-  const zkeyPath = "/zk/whitelist_inclusion_0001.zkey";
-  const wasmPath = "/zk/whitelist_inclusion.wasm";
-
-  const wasmRes = await fetch(wasmPath);
-  const wasmBuffer = await wasmRes.arrayBuffer();
-
-  console.log(wasmBuffer);
-
-  const zkeyRes = await fetch(zkeyPath);
-  const zkeyBuffer = await zkeyRes.arrayBuffer();
+  const circuitPath = "/circuits/whitelist.json";
 
   for (var i = pathElements.length; i < 32; i++) {
     pathElements.push("0x0");
@@ -44,13 +39,13 @@ export const generateProofWhitelist = async (
   }
 
   const params = {
-    merkleRoot: "0x" + root,
+    merkle_root: "0x" + root,
     path: path,
-    pathElements: pathElements,
-    userAddress: userAddress,
+    path_elements: pathElements,
+    user_address: userAddress,
   };
 
-  return generateProof(params, wasmBuffer, zkeyBuffer);
+  return generateProof(params, circuitPath);
 };
 
 export const generateProofContribution = async (
@@ -61,16 +56,7 @@ export const generateProofContribution = async (
   contribution
 ) => {
   try {
-    const zkeyPath = "zk/contribution_proof_0001.zkey";
-    const wasmPath = "zk/contribution_proof.wasm";
-
-    const wasmRes = await fetch(wasmPath);
-    const wasmBuffer = await wasmRes.arrayBuffer();
-
-    console.log(wasmBuffer);
-
-    const zkeyRes = await fetch(zkeyPath);
-    const zkeyBuffer = await zkeyRes.arrayBuffer();
+    const circuitPath = "/circuits/contribution.json";
 
     for (var i = pathElements.length; i < 32; i++) {
       pathElements.push("0x0");
@@ -81,14 +67,14 @@ export const generateProofContribution = async (
     }
 
     const params = {
-      merkleRoot: "0x" + root,
+      merkle_root: "0x" + root,
       path: path,
-      pathElements: pathElements,
-      userAddress: userAddress,
+      path_elements: pathElements,
+      user_address: userAddress,
       contribution: contribution,
     };
 
-    return generateProof(params, wasmBuffer, zkeyBuffer);
+    return generateProof(params, circuitPath);
   } catch (error) {
     console.error("Error in generateProofContribution:", error);
   }

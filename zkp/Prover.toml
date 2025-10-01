@@ -1,0 +1,31 @@
+# Noir circuit inputs for testing
+# This file contains sample inputs for the Noir circuits
+
+[whitelist]
+merkle_root = "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"
+user_address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+path = [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+path_elements = [
+  "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+]
+
+[contribution]
+merkle_root = "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+user_address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+contribution = "1000000000000000000"
+path = [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+path_elements = [
+  "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890"
+]
+
+[claim]
+merkle_root = "0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321"
+user_address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+contribution = "1000000000000000000"
+path = [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+path_elements = [
+  "0xfedcba0987654321fedcba0987654321fedcba0987654321fedcba0987654321",
+  "0x0987654321fedcba0987654321fedcba0987654321fedcba0987654321fedcba"
+]

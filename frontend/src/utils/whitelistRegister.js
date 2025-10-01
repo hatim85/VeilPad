@@ -1,4 +1,4 @@
-import { buildPoseidon, buildPoseidonOpt } from "circomlibjs";
+import { poseidon } from "poseidon-lite";
 import { ethers } from "ethers";
 import axios from "axios";
 
@@ -30,13 +30,13 @@ const register = async (symbol) => {
     console.log("Whitelist contract initialized successfully");
 
     const secret = BigInt("0x" + process.env.REACT_APP_SECRET);
-    const poseidon = await buildPoseidon();
     console.log("Poseidon hash function initialized successfully");
-    const userHash = poseidon([address]);
+    const userHash = poseidon([BigInt(address)]);
     console.log(`User hash: ${userHash}`);
     const secretHash = poseidon([secret]);
     console.log(`Secret hash: ${secretHash}`);
-    const nullifier = poseidon.F.toString(poseidon([userHash, secretHash]));
+    const nullifierHash = poseidon([userHash, secretHash]);
+    const nullifier = nullifierHash.toString();
     console.log(`nullifier: ${nullifier}`);
 
     const tx = await whitelist.register(nullifier);
@@ -46,7 +46,7 @@ const register = async (symbol) => {
     const url = "https://veilpad-g4ka.onrender.com/api/whitelist";
     const body = {
       symbol: symbol,
-      hash: poseidon.F.toString(userHash),
+      hash: userHash.toString(),
     };
     await axios.post(url, body);
 

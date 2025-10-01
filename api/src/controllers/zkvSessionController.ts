@@ -42,7 +42,7 @@ const expectedVk = JSON.parse(
 
 //     const { events, transactionResult } = await session
 //       .verify()
-//       .groth16(Library.snarkjs, CurveType.bn128)
+//       .ultraPlonk(Library.barretenberg, CurveType.bn254)
 //       .waitForPublishedAttestation()
 //       .execute({ proofData: { vk, proof, publicSignals } });
 
@@ -202,7 +202,7 @@ const startSession = async (req: Request, res: Response): Promise<void> => {
 
     const { events, transactionResult } = await session
       .verify()
-      .groth16(Library.snarkjs, CurveType.bn128)
+      .ultraPlonk(Library.barretenberg, CurveType.bn254)
       .waitForPublishedAttestation()
       .execute({ proofData: { vk, proof, publicSignals } });
 

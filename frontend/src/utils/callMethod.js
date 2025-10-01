@@ -11,8 +11,7 @@ import {
   generateProofContribution,
 } from "./generateProof";
 import { getRoot, getProof } from "./merkleTree";
-import { buildPoseidon } from "circomlibjs";
-import "snarkjs";
+import { poseidon } from "poseidon-lite";
 import { ethers } from "ethers";
 
 const callMethod = async (amountContribution, userAddress, symbol, method) => {
@@ -104,12 +103,9 @@ const callMethod = async (amountContribution, userAddress, symbol, method) => {
     },
   ];
 
-  const poseidon = await buildPoseidon();
-  const userHash = poseidon([userAddress]);
+  const userHash = poseidon([BigInt(userAddress)]);
   console.log("user hash: ", userHash);
-  const contributionCommitment = poseidon.F.toString(
-    poseidon([userAddress, amount])
-  );
+  const contributionCommitment = poseidon([BigInt(userAddress), amount]).toString();
   console.log("contributionCommitment: ", contributionCommitment);
   let proof, publicSignals, merkleRoot;
 
@@ -122,7 +118,7 @@ const callMethod = async (amountContribution, userAddress, symbol, method) => {
 
     const { hexProof: pathElements, binaryProof: path } = getProof(
       leaves,
-      poseidon.F.toString(userHash)
+      userHash.toString()
     );
     merkleRoot = getRoot(leaves);
 
@@ -165,7 +161,7 @@ const callMethod = async (amountContribution, userAddress, symbol, method) => {
   zkVerifyAndCallMethod(
     proof,
     publicSignals,
-    poseidon.F.toString(userHash),
+    userHash.toString(),
     amount,
     method,
     contractAddr,
