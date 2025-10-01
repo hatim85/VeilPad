@@ -17,7 +17,7 @@ import { ethers } from "ethers";
 
 const callMethod = async (amountContribution, userAddress, symbol, method) => {
   const amount = ethers.parseEther(amountContribution);
-  const instanceUrl = `http://localhost:8000/api/details?symbol=${symbol}`;
+  const instanceUrl = `https://veilpad-g4ka.onrender.com/api/details?symbol=${symbol}`;
   const instanceResp = await axios.get(instanceUrl);
   const contractAddr = instanceResp.data.tokenDetails.instanceAddr;
   const contractABI = [
@@ -114,7 +114,7 @@ const callMethod = async (amountContribution, userAddress, symbol, method) => {
   let proof, publicSignals, merkleRoot;
 
   if (method == "contribute") {
-    const url = `http://localhost:8000/api/details?symbol=${symbol}`;
+    const url = `https://veilpad-g4ka.onrender.com/api/details?symbol=${symbol}`;
 
     const resp = await axios.get(url);
     const leaves = resp.data.tokenDetails.whitelist;
@@ -139,7 +139,7 @@ const callMethod = async (amountContribution, userAddress, symbol, method) => {
     proof = res.proof;
     publicSignals = res.publicSignals;
   } else {
-    const url = `http://localhost:8000/api/details?symbol=${symbol}`;
+    const url = `https://veilpad-g4ka.onrender.com/api/details?symbol=${symbol}`;
     const body = { symbol: symbol };
     const resp = await axios.get(url, body);
     const leaves = resp.data.tokenDetails.contributors;

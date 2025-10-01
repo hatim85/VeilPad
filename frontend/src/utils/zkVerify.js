@@ -32,7 +32,7 @@ const zkVerifyAndCallMethod = async (
     vk = await res.json();
   }
 
-  const zkvSessionUrl = "http://localhost:8000/api/zkvSession";
+  const zkvSessionUrl = "https://veilpad-g4ka.onrender.com/api/zkvSession";
   const body = {
     vk,
     proof,
@@ -96,7 +96,7 @@ const zkVerifyAndCallMethod = async (
     );
 
     // get the token address, create token contract and transfer amount tokens to the user's address
-    const url = `http://localhost:8000/api/details?symbol=${symbol}`;
+    const url = `https://veilpad-g4ka.onrender.com/api/details?symbol=${symbol}`;
     const resp = await axios.get(url);
     const tokenAddress = resp.data.tokenDetails.address;
     const tokenABI = [
@@ -136,7 +136,7 @@ const zkVerifyAndCallMethod = async (
       commitment,
       null
     );
-    const url = "http://localhost:8000/api/contributor";
+    const url = "https://veilpad-g4ka.onrender.com/api/contributor";
     const body = { contributor: contributionCommitment, symbol: symbol };
 
     await axios.post(url, body);

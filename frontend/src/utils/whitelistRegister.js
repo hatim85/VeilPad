@@ -4,7 +4,7 @@ import axios from "axios";
 
 const register = async (symbol) => {
   try {
-    const whitelistUrl = `http://localhost:8000/api/details?symbol=${symbol}`;
+    const whitelistUrl = `https://veilpad-g4ka.onrender.com/api/details?symbol=${symbol}`;
     const whitelistResp = await axios.get(whitelistUrl);
     const whitelistAddr = whitelistResp.data.tokenDetails.whitelistAddr;
     const whitelistAbi = [
@@ -43,7 +43,7 @@ const register = async (symbol) => {
     const { hash } = await tx;
     console.log(`Transaction hash: ${hash}`);
 
-    const url = "http://localhost:8000/api/whitelist";
+    const url = "https://veilpad-g4ka.onrender.com/api/whitelist";
     const body = {
       symbol: symbol,
       hash: poseidon.F.toString(userHash),
