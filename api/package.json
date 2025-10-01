@@ -11,8 +11,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/cors": "2.8.17",
-    "@types/express": "5.0.0",
     "body-parser": "1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -25,7 +23,11 @@
     "zkverifyjs": "^0.6.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/body-parser": "^1.19.6",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.96",
+    "@types/node": "^24.6.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   }

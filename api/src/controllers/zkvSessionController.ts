@@ -206,23 +206,22 @@ const startSession = async (req: Request, res: Response): Promise<void> => {
       .waitForPublishedAttestation()
       .execute({ proofData: { vk, proof, publicSignals } });
 
-    events.on(ZkVerifyEvents.IncludedInBlock, ({ txHash }) => {
+    events.on(ZkVerifyEvents.IncludedInBlock, ({ txHash }: { txHash: string }) => {
       console.log(`Transaction accepted in zkVerify, tx-hash: ${txHash}`);
     });
 
-    events.on(ZkVerifyEvents.Finalized, ({ blockHash }) => {
+    events.on(ZkVerifyEvents.Finalized, ({ blockHash }: { blockHash: string }) => {
       console.log(`Transaction finalized in zkVerify, block-hash: ${blockHash}`);
     });
 
-    events.on("error", (error) => {
+    events.on("error", (error: Error) => {
       console.error("An error occurred during the transaction:", error);
     });
 
     try {
       const txResult = await transactionResult;
       console.log("Raw transactionResult:", txResult);
-      let { attestationId, leafDigest } = txResult;
-      console.log(`Attestation published on zkVerify`);
+      let { attestationId, leafDigest } = txResult as { attestationId: string, leafDigest: string };
       console.log(`\tattestationId: ${attestationId}`);
       console.log(`\tleafDigest: ${leafDigest}`);
 
